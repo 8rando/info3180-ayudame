@@ -17,6 +17,34 @@ import os
 # Routing for your application.
 ###
 
+
+@app.route('/api/v1/movies', methods=['POST'])
+def movies():
+    form = MovieForm()
+    
+    if form.validate_on_submit():
+        title = form.title.data
+        description = form.description.data
+        poster = form.poster.data
+        
+        # Save poster with a secure filename
+        filename = secure_filename(poster.filename)
+        poster.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        
+        # Create a new Movie instance
+        new_movie = Movie(title=title, description=description, poster=filename)
+        db.session.add(new_movie)
+        db.session.commit()
+        
+        return jsonify({
+            'message': 'Movie Successfully added',
+            'title': title,
+            'poster': filename,
+            'description': description
+        }), 200
+    else:
+        return jsonify({'errors': form_errors(form)}), 400
+
 @app.route('/')
 def index():
     return jsonify(message="This is the beginning of our API")
