@@ -12,11 +12,19 @@ from .forms import MovieForm
 from .models import Movie, db
 from werkzeug.utils import secure_filename
 import os
+from flask_wtf.csrf import CSRFProtect, generate_csrf
+
+
+csrf = CSRFProtect(app)
+
 
 ###
 # Routing for your application.
 ###
 
+@app.route('/api/v1/csrf-token', methods=['GET']) 
+def get_csrf(): 
+    return jsonify({'csrf_token': generate_csrf()})
 
 @app.route('/api/v1/movies', methods=['POST'])
 def movies():
