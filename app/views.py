@@ -7,8 +7,11 @@ This file creates your application.
 
 from app import app
 from flask import render_template, request, jsonify, send_file
+from flask import jsonify, request
+from .forms import MovieForm
+from .models import Movie, db
+from werkzeug.utils import secure_filename
 import os
-
 
 ###
 # Routing for your application.
