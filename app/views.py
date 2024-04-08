@@ -9,7 +9,7 @@ from app import app
 from flask import render_template, request, jsonify, send_file
 from flask import jsonify, request
 from .forms import MovieForm
-from .models import Movie, db
+from .models import Movie
 from werkzeug.utils import secure_filename
 import os
 from flask_wtf.csrf import CSRFProtect, generate_csrf
